@@ -25,7 +25,7 @@ public class Carta{
         this.archivoImagen=archivoImagen;
     }
 
-    private static int extraerNumero(String texto){
+    public static int extraerNumero(String texto){
         String digitos=texto.replaceAll("[^0-9]","");
         if(digitos.isEmpty()){
             return -1;
