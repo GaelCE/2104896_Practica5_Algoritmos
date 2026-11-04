@@ -12,7 +12,7 @@ public class Carta{
     private String rareza;
     private String archivoImagen;
 
-    public Carta(String nombre,String atributo,String nivel,String tipo,int atk,int def,String texto,String rareza,String archivoImagen){
+    public Carta(String nombre,String atributo,String nivel,String tipo,int atk,int def,String texto,String rareza){
         this.nombre=nombre;
         this.atributo=atributo;
         this.nivel=nivel;
@@ -22,15 +22,23 @@ public class Carta{
         this.def=def;
         this.texto=texto;
         this.rareza=rareza;
-        this.archivoImagen=archivoImagen;
+        this.archivoImagen=construirNombreArchivo(nombre);
     }
 
     public static int extraerNumero(String texto){
         String digitos=texto.replaceAll("[^0-9]","");
-        if(digitos.isEmpty()){
+        if(digitos.isEmpty()||digitos.length()>9){
             return -1;
         }
         return Integer.parseInt(digitos);
+    }
+
+    private static String construirNombreArchivo(String nombre){
+        String limpio=nombre.replaceAll("[/\\\\:*?\"<>|]","").trim();
+        while(limpio.endsWith(".")){
+            limpio=limpio.substring(0,limpio.length()-1);
+        }
+        return limpio.replace(" ","_")+".jpg";
     }
 
     public String getNombre(){

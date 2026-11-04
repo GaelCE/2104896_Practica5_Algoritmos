@@ -31,12 +31,43 @@ public class Catalogo{
         seleccionarGeneral();
     }
 
+    private static int prioridad(String etiqueta){
+        if (etiqueta.startsWith("Nivel")){
+            return 0;
+        }
+        if (etiqueta.startsWith("Rango")){
+            return 1;
+        }
+        return 2;
+    }
+
     private static int compararEtiquetas(String a,String b){
-        int resultado=Integer.compare(Carta.extraerNumero(a),Carta.extraerNumero(b));
+        int resultado=Integer.compare(prioridad(a),prioridad(b));
+        if (resultado!=0){
+            return resultado;
+        }
+        resultado=Integer.compare(Carta.extraerNumero(a),Carta.extraerNumero(b));
         if (resultado!=0){
             return resultado;
         }
         return a.compareTo(b);
+    }
+
+    public boolean mostrarPorNombre(String nombre){
+        String buscado=nombre.trim();
+        if (buscado.isEmpty()){
+            return false;
+        }
+        int cantidad=general.getTamano();
+        for (int i=0;i<cantidad;i++){
+            Carta carta=general.getElemento(i);
+            if (carta.getNombre().equalsIgnoreCase(buscado)){
+                seleccionarGeneral();
+                irA(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void obtenerEtiquetas(){
@@ -162,12 +193,20 @@ public class Catalogo{
         return activa.getElemento(posicion);
     }
 
+    public Carta getCartaRelativa(int desplazamiento){
+        if (total==0){
+            return null;
+        }
+        int indice=((posicion+desplazamiento)%total+total)%total;
+        return activa.getElemento(indice);
+    }
+
     public Carta getSiguiente(){
-        return activa.getElemento(posicion+1);
+        return getCartaRelativa(1);
     }
 
     public Carta getAnterior(){
-        return activa.getElemento(posicion+total-1);
+        return getCartaRelativa(-1);
     }
 
     public Carta getCartaEn(int indice){
