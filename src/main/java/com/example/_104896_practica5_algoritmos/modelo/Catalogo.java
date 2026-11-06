@@ -31,6 +31,46 @@ public class Catalogo{
         seleccionarGeneral();
     }
 
+    public boolean seleccionarGeneral(){
+        return activar(general,TipoLista.GENERAL);
+    }
+
+    public boolean seleccionarNivel(String etiqueta){
+        ListaCircular<Carta> lista=new ListaCircular<>();
+        int cantidad=general.getTamano();
+        for (int i=0;i<cantidad;i++){
+            Carta carta=general.getElemento(i);
+            if (carta.getNivel().equals(etiqueta)){
+                lista.insertaFinal(carta);
+            }
+        }
+        nivel=lista;
+        return activar(nivel,TipoLista.NIVEL);
+    }
+
+    public boolean seleccionarAtributo(String etiqueta){
+        ListaCircular<Carta> lista=new ListaCircular<>();
+        int cantidad=general.getTamano();
+        for (int i=0;i<cantidad;i++){
+            Carta carta=general.getElemento(i);
+            if (carta.getAtributo().equals(etiqueta)){
+                lista.insertaFinal(carta);
+            }
+        }
+        atributo=lista;
+        return activar(atributo,TipoLista.ATRIBUTO);
+    }
+
+    public boolean seleccionarAtaque(boolean ascendente){
+        ataque=armarOrdenada(true,ascendente);
+        return activar(ataque,TipoLista.ATAQUE);
+    }
+
+    public boolean seleccionarDefensa(boolean ascendente){
+        defensa=armarOrdenada(false,ascendente);
+        return activar(defensa,TipoLista.DEFENSA);
+    }
+
     private static int prioridad(String etiqueta){
         if (etiqueta.startsWith("Nivel")){
             return 0;
@@ -123,45 +163,7 @@ public class Catalogo{
         return lista;
     }
 
-    public boolean seleccionarGeneral(){
-        return activar(general,TipoLista.GENERAL);
-    }
 
-    public boolean seleccionarNivel(String etiqueta){
-        ListaCircular<Carta> lista=new ListaCircular<>();
-        int cantidad=general.getTamano();
-        for (int i=0;i<cantidad;i++){
-            Carta carta=general.getElemento(i);
-            if (carta.getNivel().equals(etiqueta)){
-                lista.insertaFinal(carta);
-            }
-        }
-        nivel=lista;
-        return activar(nivel,TipoLista.NIVEL);
-    }
-
-    public boolean seleccionarAtributo(String etiqueta){
-        ListaCircular<Carta> lista=new ListaCircular<>();
-        int cantidad=general.getTamano();
-        for (int i=0;i<cantidad;i++){
-            Carta carta=general.getElemento(i);
-            if (carta.getAtributo().equals(etiqueta)){
-                lista.insertaFinal(carta);
-            }
-        }
-        atributo=lista;
-        return activar(atributo,TipoLista.ATRIBUTO);
-    }
-
-    public boolean seleccionarAtaque(boolean ascendente){
-        ataque=armarOrdenada(true,ascendente);
-        return activar(ataque,TipoLista.ATAQUE);
-    }
-
-    public boolean seleccionarDefensa(boolean ascendente){
-        defensa=armarOrdenada(false,ascendente);
-        return activar(defensa,TipoLista.DEFENSA);
-    }
 
     public void siguiente(){
         if (total==0){

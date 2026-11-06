@@ -7,19 +7,16 @@ import java.nio.charset.StandardCharsets;
 
 public class LectorCartas{
     private static final int NUM_CAMPOS=8;
-    private static final String CARPETA_IMAGENES="/MP23_es/";
+    private static final String CARPETA_IMAGENES="/renombradas/";
 
-    public static Carta parsearLinea(String linea){
+    public static Carta parsearLinea(String linea,int numeroCarta){
         String[] campos=linea.split("\\|",-1);
-        if (campos.length!=NUM_CAMPOS){
-            throw new IllegalArgumentException("Se esperaban "+NUM_CAMPOS+" campos y se encontraron "+campos.length);
-        }
         for (int i=0;i<campos.length;i++){
             campos[i]=campos[i].trim();
         }
         int atk=aEntero(campos[4]);
         int def=aEntero(campos[5]);
-        return new Carta(campos[0],campos[1],campos[2],campos[3],atk,def,campos[6],campos[7]);
+        return new Carta(campos[0],campos[1],campos[2],campos[3],atk,def,campos[6],campos[7],numeroCarta);
     }
 
     private static int aEntero(String texto){
@@ -55,7 +52,7 @@ public class LectorCartas{
 
     private static void agregarCarta(String linea,int numero,ListaCircular<Carta> lista){
         try{
-            Carta carta=parsearLinea(linea);
+            Carta carta=parsearLinea(linea,numero-1);
             lista.insertaFinal(carta);
             if (LectorCartas.class.getResource(CARPETA_IMAGENES+carta.getArchivoImagen())==null){
                 System.out.println("Imagen no encontrada: "+carta.getArchivoImagen());

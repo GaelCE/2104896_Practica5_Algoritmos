@@ -12,7 +12,7 @@ public class Carta{
     private String rareza;
     private String archivoImagen;
 
-    public Carta(String nombre,String atributo,String nivel,String tipo,int atk,int def,String texto,String rareza){
+    public Carta(String nombre,String atributo,String nivel,String tipo,int atk,int def,String texto,String rareza,int numeroCarta){
         this.nombre=nombre;
         this.atributo=atributo;
         this.nivel=nivel;
@@ -22,7 +22,7 @@ public class Carta{
         this.def=def;
         this.texto=texto;
         this.rareza=rareza;
-        this.archivoImagen=construirNombreArchivo(nombre);
+        this.archivoImagen=String.format("%03d",numeroCarta)+".jpg";
     }
 
     public static int extraerNumero(String texto){
